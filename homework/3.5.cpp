@@ -5,9 +5,9 @@ class Person{
     friend std::istream& read_person(std::istream&, Person&);
     friend std::ostream& print(std::ostream&, const Person&);
     public:
-        //Person()=default;
-        Person(std::string n="no", std::string s="no" ,std::string a="no" ,int p=0 ,int sa=0):name(n),sex(s),address(a),phonenumber(p),salary(sa){}
-        //Person(std::string n, std::string s, std::string a, int p, int sa):name(n),sex(s),address(a),phonenumber(p),salary(sa){}
+        Person()=default;
+        //Person(std::string n="no", std::string s="no" ,std::string a="no" ,int p=0 ,int sa=0):name(n),sex(s),address(a),phonenumber(p),salary(sa){}
+        Person(std::string n, std::string s, std::string a, int p, int sa):name(n),sex(s),address(a),phonenumber(p),salary(sa){}
         virtual std::ostream& show(){
             return std::cout<<name<<" "<<sex<<" "<<address<<" "<<phonenumber<<" "<<salary;
         };
@@ -30,9 +30,10 @@ class Teacher : virtual public Person{
     friend std::istream& read_teacher(std::istream&, Teacher&);
     friend std::ostream& print(std::ostream&, const Person&);
     public:
-        //Teacher()=default;
-        Teacher(std::string p="no"):post(p){}
-        //Teacher(std::string p):post(p){}
+        Teacher()=default;
+        //Teacher(std::string p="no"):post(p){}
+        Teacher(std::string n, std::string s, std::string a, int p, int sa, std::string po):Person(n,s,a,p,sa),post(po){}
+        //每个类各自控制自己的接口 这里用基类 Person 的构造函数去初始化
         virtual std::ostream& show() override{
             return std::cout<<name<<" "<<sex<<" "<<address<<" "<<phonenumber<<" "<<salary<<"\n"<<post;
         };
@@ -54,9 +55,9 @@ class Cadre : virtual public Person{
         virtual std::ostream& show() override{
             return std::cout<<name<<" "<<sex<<" "<<address<<" "<<phonenumber<<" "<<salary<<"\n"<<job;
         };
-        //Cadre()=default;
-        Cadre(std::string j="no"):job(j){}
-        //Cadre(std::string j):job(j){}
+        Cadre()=default;
+        //Cadre(std::string j="no"):job(j){}
+        Cadre(std::string n, std::string s, std::string a, int p, int sa, std::string j):Person(n,s,a,p,sa),job(j){}
     private:
     protected:
         std::string job;
@@ -76,6 +77,8 @@ class TeacherCadre : public Teacher, public Cadre{
             return std::cout<<name<<" "<<sex<<" "<<address<<" "<<phonenumber<<" "<<salary<<"\n"<<post<<" "<<job;
         };
         TeacherCadre()=default;
+        TeacherCadre(std::string n, std::string s, std::string a, int p, int sa, std::string po, std::string j):Teacher(n,s,a,p,sa,po),Cadre(n,s,a,p,sa,j){}
+        //Q: 这就是虚继承吗
     private:
     protected:
 };
