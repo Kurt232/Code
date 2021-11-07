@@ -3,7 +3,7 @@
 #include"BinNode.h"
 #endif
 
-class BinTree: public BinNode{
+class BinTree: private BinNode{
     BinNode* _root;
     int _size;
 
@@ -21,18 +21,24 @@ class BinTree: public BinNode{
     }
     int size() const{return _size;}
     bool empty() const{return !_root;}
-    BinNode* insert(char const& e){//插入根节点
+    BinNode* root() const {return _root;}
+    int clear(){
+        int n=0;
+        if(_size>0) n=remove(_root);
+        return n;
+    }
+    BinNode* insert(string const& e){//插入根节点
         _size=1;
         return _root=new BinNode(e);
     }
-    BinNode* insert(char const& e, BinNode* x){//插入为 x的左儿子
+    BinNode* insert(string const& e, BinNode* x){//插入为 x的左儿子
         _size++;
-        if(x->ls) remove(x->ls);
+        if(x->ls) remove(x->ls);//保护
         x->ls= new BinNode(e,this);
     }
-    BinNode* insert(BinNode* x, char const& e){//插入为 x的右儿子
+    BinNode* insert(BinNode* x, string const& e){//插入为 x的右儿子
         _size++;
-        if(x->rs) remove(x->rs);
+        if(x->rs) remove(x->rs);//保护
         x->rs= new BinNode(e,this);
     }
     BinNode* attach(BinTree* &s, BinNode* x){//要求 x->ls==nullptr
