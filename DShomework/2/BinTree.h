@@ -21,7 +21,7 @@ class BinTree: public BinNode{
     }
     int size() const{return _size;}
     bool empty() const{return !_root;}
-    BinNode* insert(char const& e){
+    BinNode* insert(char const& e){//插入根节点
         _size=1;
         return _root=new BinNode(e);
     }
@@ -34,6 +34,22 @@ class BinTree: public BinNode{
         _size++;
         if(x->rs) remove(x->rs);
         x->rs= new BinNode(e,this);
+    }
+    BinNode* attach(BinTree* &s, BinNode* x){//要求 x->ls==nullptr
+        if(x->ls=s->_root) x->ls->pa=x;//接入
+        _size+=s->size();
+        s->_root=nullptr;
+        s->_size=0;
+        delete s;
+        return x;
+    }
+    BinNode* attach(BinNode* x, BinTree* &s){//要求 x->rs==nullptr
+        if(x->rs=s->_root) x->rs->pa=x;//接入
+        _size+=s->size();
+        s->_root=nullptr;
+        s->_size=0;
+        delete s;
+        return x;
     }
     int remove(BinNode* x){
         if(!x->pa){
