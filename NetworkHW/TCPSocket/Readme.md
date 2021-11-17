@@ -1,8 +1,6 @@
 # 基于tcp协议网络的socket编程
 
-[socket编程分析](https://www.jianshu.com/p/066d99da7cbd)
-
-[socket编程入门](https://www.cnblogs.com/kefeiGame/p/7246942.html)
+[socket编程分析](https://www.cnblogs.com/chenzhenhong/p/13885290.html)
 
 ## 本实验的应用层协议设计如下
 
