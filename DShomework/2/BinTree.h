@@ -1,5 +1,5 @@
-#ifndef BINTREE.H
-#define BINTREE.H
+#ifndef BINTREE_H
+#define BINTREE_H
 #include"BinNode.h"
 #endif
 
@@ -7,10 +7,10 @@ class BinTree: private BinNode{
     BinNode* _root;
     int _size;
 
-    static int removeAt(BinNode* x){
+    int removeAt(BinNode* x){
         if(!x) return 0;
         int n=1+removeAt(x->ls)+removeAt(x->rs);
-        delete x;
+        //delete x;
         return n;
     }
 
@@ -35,11 +35,13 @@ class BinTree: private BinNode{
         _size++;
         if(x->ls) remove(x->ls);//保护
         x->ls= new BinNode(e,this);
+        return x;
     }
     BinNode* insert(BinNode* x, string const& e){//插入为 x的右儿子
         _size++;
         if(x->rs) remove(x->rs);//保护
         x->rs= new BinNode(e,this);
+        return x;
     }
     BinNode* attach(BinTree* &s, BinNode* x){//要求 x->ls==nullptr
         if(x->ls=s->_root) x->ls->pa=x;//接入
@@ -58,10 +60,11 @@ class BinTree: private BinNode{
         return x;
     }
     int remove(BinNode* x){
-        if(!x->pa){
-            if(!((x->pa)->ls)&&x==(x->pa)->ls) (x->pa)->ls=nullptr;
-            if(!((x->pa)->rs)&&x==(x->pa)->rs) (x->pa)->rs=nullptr;
+        if(x->pa){
+            if(x==(x->pa)->ls) (x->pa)->ls=nullptr;
+            else (x->pa)->rs=nullptr;
         }//切断来自父节点的指针
+        else _root=nullptr;
         int n=removeAt(x);
         _size-=n;
         return n;
